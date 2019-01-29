@@ -22,6 +22,8 @@
     "electron": "^4.0.2"
   },
   "dependencies": {
-    "node-audiorecorder": "^1.4.0"
+    "@google-cloud/speech": "^2.2.0",
+    "node-audiorecorder": "^1.4.0",
+    "speech-to-text": "^2.9.1"
   }
 }

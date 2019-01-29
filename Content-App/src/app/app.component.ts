@@ -30,11 +30,11 @@ import {
   FileUploadErrorEvent,
   PageTitleService,
   UploadService
-} from '@alfresco/adf-core';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppExtensionService } from './extensions/extension.service';
+} from "@alfresco/adf-core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { AppExtensionService } from "./extensions/extension.service";
 import {
   SnackbarErrorAction,
   SetCurrentUrlAction,
@@ -42,22 +42,25 @@ import {
   CloseModalDialogsAction,
   SetRepositoryStatusAction,
   SetUserProfileAction
-} from './store/actions';
+} from "./store/actions";
 import {
   AppStore,
   AppState,
   INITIAL_APP_STATE
-} from './store/states/app.state';
-import { filter, takeUntil } from 'rxjs/operators';
-import { ContentApiService } from './services/content-api.service';
-import { DiscoveryEntry } from 'alfresco-js-api';
-import { AppService } from './services/app.service';
-import { Subject } from 'rxjs';
-
+} from "./store/states/app.state";
+import { filter, takeUntil } from "rxjs/operators";
+import { ContentApiService } from "./services/content-api.service";
+import { DiscoveryEntry } from "alfresco-js-api";
+import { AppService } from "./services/app.service";
+import { Subject } from "rxjs";
+import { ElectronService } from "ngx-electron";
+export interface IWindow extends Window {
+  webkitSpeechRecognition: any;
+}
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
@@ -73,21 +76,25 @@ export class AppComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     private extensions: AppExtensionService,
     private contentApi: ContentApiService,
-    private appService: AppService
+    private appService: AppService,
+    private electronService: ElectronService
   ) {}
 
   ngOnInit() {
-    this.alfrescoApiService.getInstance().on('error', error => {
+    this.alfrescoApiService.getInstance().on("error", error => {
       if (error.status === 401) {
         if (!this.authenticationService.isLoggedIn()) {
           this.store.dispatch(new CloseModalDialogsAction());
-          this.router.navigate(['/login'], {
-            queryParams: { returnUrl: 'personal-files' }
+          this.router.navigate(["/login"], {
+            queryParams: { returnUrl: "personal-files" }
           });
         }
       }
     });
 
+    this.electronService.ipcRenderer.on("startRecording", () => {
+      this.initTextToSpeech();
+    });
     this.loadAppSettings();
 
     const { router, pageTitle, route } = this;
@@ -104,7 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
         const snapshot: any = currentRoute.snapshot || {};
         const data: any = snapshot.data || {};
 
-        pageTitle.setTitle(data.title || '');
+        pageTitle.setTitle(data.title || "");
 
         this.store.dispatch(new SetCurrentUrlAction(router.url));
       });
@@ -131,6 +138,42 @@ export class AppComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  private initTextToSpeech() {
+    const { webkitSpeechRecognition }: IWindow = <IWindow>window;
+
+    const recognition = new webkitSpeechRecognition();
+
+    let finalTranscript = "";
+    recognition.start();
+
+    recognition.onstart = event => {
+      console.log("Start", event);
+    };
+
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.language = "en-US";
+    // process both interim and finalised results
+    recognition.onresult = event => {
+      console.log("Result started", event);
+      let interimTranscript = "";
+
+      // concatenate all the transcribed pieces together (SpeechRecognitionResult)
+      for (let i = event.resultIndex; i < event.results.length; i += 1) {
+        const transcriptionPiece = event.results[i][0].transcript;
+        console.log(transcriptionPiece);
+        // check for a finalised transciption in the cloud
+        if (event.results[i].isFinal) {
+          finalTranscript += transcriptionPiece;
+          console.log(finalTranscript);
+          finalTranscript = "";
+        } else if (recognition.interimResults) {
+          interimTranscript += transcriptionPiece;
+          console.log(interimTranscript);
+        }
+      }
+    };
+  }
   private loadRepositoryStatus() {
     this.contentApi
       .getRepositoryInformation()
@@ -142,22 +185,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private loadUserProfile() {
-    this.contentApi.getPerson('-me-').subscribe(person => {
+    this.contentApi.getPerson("-me-").subscribe(person => {
       this.store.dispatch(new SetUserProfileAction(person.entry));
     });
   }
 
   private loadAppSettings() {
     const baseShareUrl =
-      this.config.get<string>('baseShareUrl') ||
-      this.config.get<string>('ecmHost');
+      this.config.get<string>("baseShareUrl") ||
+      this.config.get<string>("ecmHost");
 
     const state: AppState = {
       ...INITIAL_APP_STATE,
-      languagePicker: this.config.get<boolean>('languagePicker'),
-      appName: this.config.get<string>('application.name'),
-      headerColor: this.config.get<string>('headerColor'),
-      logoPath: this.config.get<string>('application.logo'),
+      languagePicker: this.config.get<boolean>("languagePicker"),
+      appName: this.config.get<string>("application.name"),
+      headerColor: this.config.get<string>("headerColor"),
+      logoPath: this.config.get<string>("application.logo"),
       sharedUrl: `${baseShareUrl}/#/preview/s/`
     };
 
@@ -165,26 +208,26 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onFileUploadedError(error: FileUploadErrorEvent) {
-    let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
+    let message = "APP.MESSAGES.UPLOAD.ERROR.GENERIC";
 
     if (error.error.status === 403) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.403';
+      message = "APP.MESSAGES.UPLOAD.ERROR.403";
     }
 
     if (error.error.status === 404) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.404';
+      message = "APP.MESSAGES.UPLOAD.ERROR.404";
     }
 
     if (error.error.status === 409) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
+      message = "APP.MESSAGES.UPLOAD.ERROR.CONFLICT";
     }
 
     if (error.error.status === 500) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.500';
+      message = "APP.MESSAGES.UPLOAD.ERROR.500";
     }
 
     if (error.error.status === 504) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.504';
+      message = "APP.MESSAGES.UPLOAD.ERROR.504";
     }
 
     this.store.dispatch(new SnackbarErrorAction(message));
