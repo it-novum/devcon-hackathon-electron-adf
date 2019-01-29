@@ -2,8 +2,8 @@
 
 A sample Electron App using Alfresco ADF Angular components
 
-#Install
+# Install
 Run `npm install`
 
-#Run
+# Run
 Run `npm start` to use main.js as an entry point
