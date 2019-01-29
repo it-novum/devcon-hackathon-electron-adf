@@ -1,0 +1,52 @@
+@mixin sidenav-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  $border: 1px solid mat-color($foreground, divider, 0.07);
+
+  .sidenav {
+    @include angular-material-theme($theme);
+
+    background-color: mat-color($background, background);
+
+    .mat-expansion-panel {
+      background-color: unset;
+      color: mat-color($primary, 0.87) !important;
+    }
+
+    .mat-expansion-panel {
+      box-shadow: none !important;
+    }
+
+    .mat-expansion-panel:not(.mat-expanded)
+      .mat-expansion-panel-header:not([aria-disabled='true']):hover {
+      background: none !important;
+    }
+
+    .mat-expansion-panel-header {
+      font-size: 14px !important;
+    }
+
+    .adf-sidebar-action-menu-button {
+      background-color: mat-color($accent);
+    }
+
+    .section {
+      border-bottom: $border;
+    }
+
+    .item--label:not(.item--active):hover {
+      color: mat-color($foreground, text);
+    }
+
+    .item--active {
+      color: mat-color($accent);
+    }
+
+    .item--default {
+      color: mat-color($primary, 0.87);
+    }
+  }
+}

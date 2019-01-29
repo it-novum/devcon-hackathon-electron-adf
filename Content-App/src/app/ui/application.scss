@@ -1,0 +1,26 @@
+@import 'mixins';
+@import 'theme';
+
+$foreground: map-get($theme, foreground);
+
+html,
+body {
+  @include flex-column;
+  font-size: 14px;
+  font-family: 'Muli', sans-serif;
+  color: mat-color($foreground, text, 0.87);
+  margin: 0;
+
+  & > main {
+    @include flex-column;
+  }
+}
+
+// todo: move this to corresponding component theme files
+app-root,
+app-about,
+adf-layout-container,
+aca-search-results,
+ng-component {
+  @include flex-column;
+}
