@@ -59,6 +59,7 @@
     "minimatch-browser": "^1.0.0",
     "moment": "^2.22.2",
     "moment-es6": "1.0.0",
+    "ngx-electron": "^2.1.1",
     "pdfjs-dist": "^2.0.489",
     "rxjs": "^6.3.3",
     "zone.js": "0.8.26"

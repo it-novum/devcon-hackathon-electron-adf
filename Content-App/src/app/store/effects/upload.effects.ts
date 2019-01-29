@@ -32,6 +32,7 @@ import { map, take } from "rxjs/operators";
 import { FileUtils, FileModel, UploadService } from "@alfresco/adf-core";
 import { currentFolder } from "../selectors/app.selectors";
 import { UploadFolderAction, UPLOAD_FOLDER } from "../actions/upload.actions";
+import { ElectronService } from "ngx-electron";
 
 @Injectable()
 export class UploadEffects {
@@ -43,7 +44,8 @@ export class UploadEffects {
     private actions$: Actions,
     private ngZone: NgZone,
     private uploadService: UploadService,
-    rendererFactory: RendererFactory2
+    rendererFactory: RendererFactory2,
+    private electronService: ElectronService
   ) {
     const renderer = rendererFactory.createRenderer(null, null);
 

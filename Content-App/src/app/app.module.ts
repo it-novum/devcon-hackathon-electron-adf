@@ -23,61 +23,63 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { RouterModule, RouteReuseStrategy } from '@angular/router';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { RouterModule, RouteReuseStrategy } from "@angular/router";
 import {
   BrowserAnimationsModule,
   NoopAnimationsModule
-} from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+} from "@angular/platform-browser/animations";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   TRANSLATION_PROVIDER,
   CoreModule,
   AppConfigService,
   DebugAppConfigService
-} from '@alfresco/adf-core';
+} from "@alfresco/adf-core";
 import {
   ContentModule,
   CustomResourcesService
-} from '@alfresco/adf-content-services';
+} from "@alfresco/adf-content-services";
 
-import { AppComponent } from './app.component';
-import { APP_ROUTES } from './app.routes';
+import { AppComponent } from "./app.component";
+import { APP_ROUTES } from "./app.routes";
 
-import { FilesComponent } from './components/files/files.component';
-import { LibrariesComponent } from './components/libraries/libraries.component';
-import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
-import { LibraryDialogComponent } from './dialogs/library/library.dialog';
+import { FilesComponent } from "./components/files/files.component";
+import { LibrariesComponent } from "./components/libraries/libraries.component";
+import { FavoriteLibrariesComponent } from "./components/favorite-libraries/favorite-libraries.component";
+import { NodeVersionsDialogComponent } from "./dialogs/node-versions/node-versions.dialog";
+import { LibraryDialogComponent } from "./dialogs/library/library.dialog";
 
-import { AppStoreModule } from './store/app-store.module';
-import { MaterialModule } from './material.module';
-import { AppExtensionsModule } from './extensions.module';
-import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { AppRouteReuseStrategy } from './app.routes.strategy';
-import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
-import { DirectivesModule } from './directives/directives.module';
-import { ContextMenuModule } from './components/context-menu/context-menu.module';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { AppToolbarModule } from './components/toolbar/toolbar.module';
-import { AppSharedModule } from './components/shared/shared.module';
-import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
-import { AppSidenavModule } from './components/sidenav/sidenav.module';
-import { AppPermissionsModule } from './components/permissions/permissions.module';
-import { AppCommonModule } from './components/common/common.module';
-import { AppLayoutModule } from './components/layout/layout.module';
-import { AppCurrentUserModule } from './components/current-user/current-user.module';
-import { AppSearchInputModule } from './components/search/search-input.module';
-import { AppSearchResultsModule } from './components/search/search-results.module';
-import { AppLoginModule } from './components/login/login.module';
-import { AppHeaderModule } from './components/header/header.module';
-import { environment } from '../environments/environment';
-import { AppDataService } from './services/data.service';
+import { AppStoreModule } from "./store/app-store.module";
+import { MaterialModule } from "./material.module";
+import { AppExtensionsModule } from "./extensions.module";
+import { CoreExtensionsModule } from "./extensions/core.extensions.module";
+import { AppRouteReuseStrategy } from "./app.routes.strategy";
+import { AppInfoDrawerModule } from "./components/info-drawer/info.drawer.module";
+import { DirectivesModule } from "./directives/directives.module";
+import { ContextMenuModule } from "./components/context-menu/context-menu.module";
+import { ExtensionsModule } from "@alfresco/adf-extensions";
+import { AppToolbarModule } from "./components/toolbar/toolbar.module";
+import { AppSharedModule } from "./components/shared/shared.module";
+import { AppCreateMenuModule } from "./components/create-menu/create-menu.module";
+import { AppSidenavModule } from "./components/sidenav/sidenav.module";
+import { AppPermissionsModule } from "./components/permissions/permissions.module";
+import { AppCommonModule } from "./components/common/common.module";
+import { AppLayoutModule } from "./components/layout/layout.module";
+import { AppCurrentUserModule } from "./components/current-user/current-user.module";
+import { AppSearchInputModule } from "./components/search/search-input.module";
+import { AppSearchResultsModule } from "./components/search/search-results.module";
+import { AppLoginModule } from "./components/login/login.module";
+import { AppHeaderModule } from "./components/header/header.module";
+import { environment } from "../environments/environment";
+import { AppDataService } from "./services/data.service";
+import { NgxElectronModule } from "ngx-electron";
 
 @NgModule({
   imports: [
     BrowserModule,
+    NgxElectronModule,
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -124,8 +126,8 @@ import { AppDataService } from './services/data.service';
       provide: TRANSLATION_PROVIDER,
       multi: true,
       useValue: {
-        name: 'app',
-        source: 'assets'
+        name: "app",
+        source: "assets"
       }
     }
   ],
