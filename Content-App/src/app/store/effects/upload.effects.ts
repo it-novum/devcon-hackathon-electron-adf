@@ -112,7 +112,23 @@ export class UploadEffects {
       this.ngZone.run(() => {
         this.uploadService.addToQueue(...files);
         this.uploadService.uploadFilesInTheQueue();
-        this.uploadService.fileUploadComplete.subscribe(event => {});
+
+        this.uploadService.fileUploadProgress.subscribe(event => {
+          this.electronService.ipcRenderer.send("uploadProgress", [
+            { progress: event.file.progress.percent }
+          ]);
+        });
+
+        this.uploadService.fileUploadComplete.subscribe(event => {
+          console.log("## file uploaded", this.electronService);
+          if (this.electronService.isElectronApp) {
+            this.electronService.ipcRenderer.send("upload", [
+              {
+                name: event.data.entry.name
+              }
+            ]);
+          }
+        });
       });
     }
   }

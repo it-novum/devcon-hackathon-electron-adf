@@ -4,7 +4,7 @@
   "description": "A sample Electron App using Alfresco ADF Angular components implemented during Alfresco DevCon Hackathon 2019",
   "main": "main.js",
   "scripts": {
-    "start": "npm start --prefix ./Content-App & npm run start:electron",
+    "start": "npm start --prefix ./Content-App",
     "start:electron": "electron . ",
     "start:prod": ""
   },
@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/MariusGrunenberg/electron-adf#readme",
   "devDependencies": {
-    "electron": "^4.0.2",
-    "electron-devtools-installer": "^2.2.4"
+    "electron": "^4.0.2"
+  },
+  "dependencies": {
+    "node-audiorecorder": "^1.4.0"
   }
 }
