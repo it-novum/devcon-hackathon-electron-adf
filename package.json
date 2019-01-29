@@ -4,7 +4,7 @@
   "description": "A sample Electron App using Alfresco ADF Angular components implemented during Alfresco DevCon Hackathon 2019",
   "main": "main.js",
   "scripts": {
-    "start": "npm start --prefix ./Content-App",
+    "start:adf": "npm start --prefix ./Content-App",
     "start:electron": "electron . ",
     "start:prod": ""
   },
