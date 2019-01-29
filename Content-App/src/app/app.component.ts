@@ -53,7 +53,6 @@ import { ContentApiService } from "./services/content-api.service";
 import { DiscoveryEntry } from "alfresco-js-api";
 import { AppService } from "./services/app.service";
 import { Subject } from "rxjs";
-import { ElectronService } from "ngx-electron";
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
 }
@@ -76,8 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     private extensions: AppExtensionService,
     private contentApi: ContentApiService,
-    private appService: AppService,
-    private electronService: ElectronService
+    private appService: AppService
   ) {}
 
   ngOnInit() {
@@ -92,9 +90,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.electronService.ipcRenderer.on("startRecording", () => {
-      this.initTextToSpeech();
-    });
     this.loadAppSettings();
 
     const { router, pageTitle, route } = this;
@@ -138,42 +133,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  private initTextToSpeech() {
-    const { webkitSpeechRecognition }: IWindow = <IWindow>window;
-
-    const recognition = new webkitSpeechRecognition();
-
-    let finalTranscript = "";
-    recognition.start();
-
-    recognition.onstart = event => {
-      console.log("Start", event);
-    };
-
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.language = "en-US";
-    // process both interim and finalised results
-    recognition.onresult = event => {
-      console.log("Result started", event);
-      let interimTranscript = "";
-
-      // concatenate all the transcribed pieces together (SpeechRecognitionResult)
-      for (let i = event.resultIndex; i < event.results.length; i += 1) {
-        const transcriptionPiece = event.results[i][0].transcript;
-        console.log(transcriptionPiece);
-        // check for a finalised transciption in the cloud
-        if (event.results[i].isFinal) {
-          finalTranscript += transcriptionPiece;
-          console.log(finalTranscript);
-          finalTranscript = "";
-        } else if (recognition.interimResults) {
-          interimTranscript += transcriptionPiece;
-          console.log(interimTranscript);
-        }
-      }
-    };
-  }
   private loadRepositoryStatus() {
     this.contentApi
       .getRepositoryInformation()

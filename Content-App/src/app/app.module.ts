@@ -75,10 +75,12 @@ import { AppHeaderModule } from "./components/header/header.module";
 import { environment } from "../environments/environment";
 import { AppDataService } from "./services/data.service";
 import { NgxElectronModule } from "ngx-electron";
+import { WebcamModule } from "ngx-webcam";
 
 @NgModule({
   imports: [
     BrowserModule,
+    WebcamModule,
     NgxElectronModule,
     environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
     FormsModule,

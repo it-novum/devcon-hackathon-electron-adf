@@ -110,6 +110,7 @@ export class UploadEffects {
   private uploadQueue(files: FileModel[]) {
     if (files.length > 0) {
       this.ngZone.run(() => {
+        console.log("Upload", files);
         this.uploadService.addToQueue(...files);
         this.uploadService.uploadFilesInTheQueue();
 

@@ -3,18 +3,9 @@ const {
   BrowserWindow,
   Notification,
   ipcMain,
-  ipcRenderer,
   TouchBar
 } = require("electron");
-const fs = require("fs");
-const AudioRecorder = require("node-audiorecorder");
 const { TouchBarButton } = TouchBar;
-const options = {
-  program: `sox`, // Which program to use, either `arecord`, `rec`, or `sox`.
-  silence: 2,
-  device: "default",
-  threshold: 0.35 // Recording device to use.
-};
 
 function createWindow() {
   // Create the browser window.
@@ -33,7 +24,9 @@ initTouchbar = () => {
   let touchbarButton = new TouchBarButton({
     icon: "./assets/alfresco.png",
     click: () => {
-      win.webContents.send("startRecording");
+      console.log("Click");
+
+      win.webContents.send("takeImage");
     }
   });
   let touchbar = new TouchBar({ items: [touchbarButton] });

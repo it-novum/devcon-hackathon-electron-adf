@@ -23,13 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { LoginComponent } from './login.component';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { CoreModule } from "@alfresco/adf-core";
+import { LoginComponent } from "./login.component";
 
+import { WebcamModule } from "ngx-webcam";
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
+  imports: [CommonModule, WebcamModule, CoreModule.forChild()],
   declarations: [LoginComponent]
 })
 export class AppLoginModule {}
