@@ -1,0 +1,22 @@
+{
+  "name": "electron-adf",
+  "version": "1.0.0",
+  "description": "A sample Electron App using Alfresco ADF Angular components",
+  "main": "main.js", 
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MariusGrunenberg/electron-adf.git"
+  },
+  "author": "Marius Grunenberg, Alexander Seitz, Lukas Ladenberger, Andrej Lustin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MariusGrunenberg/electron-adf/issues"
+  },
+  "homepage": "https://github.com/MariusGrunenberg/electron-adf#readme",
+  "devDependencies": {
+    "electron": "^4.0.2"
+  }
+}
