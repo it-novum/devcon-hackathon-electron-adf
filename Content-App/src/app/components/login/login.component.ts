@@ -31,9 +31,7 @@ import { Subject } from "rxjs";
 import { WebcamImage } from "ngx-webcam";
 import { Observable } from "rxjs";
 import { ElectronService } from "ngx-electron";
-import { Store } from "@ngrx/store";
 import { FileModel } from "@alfresco/adf-core";
-import { AppStore } from "../../store/states";
 import { UploadService } from "@alfresco/adf-core";
 
 @Component({
