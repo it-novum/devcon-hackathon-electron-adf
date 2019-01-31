@@ -12,12 +12,12 @@ function createWindow() {
   win = new BrowserWindow({ width: 1600, height: 800 });
   win.toggleDevTools();
 
-  // and load the index.html of the app.
-  win.loadURL("http://localhost:4200");
-
   initUpload();
   initUploadProgress();
   initTouchbar();
+
+  // and load the index.html of the app.
+  win.loadURL("http://localhost:4200");
 }
 
 initTouchbar = () => {
@@ -35,16 +35,21 @@ initTouchbar = () => {
 
 initUpload = () => {
   ipcMain.on("upload", (event, args) => {
+    console.log("Uplaod completed");
     let uploadNotification = new Notification({
       title: "Upload complete!",
       subtitle: 'File "' + args[0].name + "' has been uploaded succesfully."
     });
+    console.log("Args", args);
+
     uploadNotification.show();
     win.setProgressBar(-1);
   });
 };
+
 initUploadProgress = () => {
   ipcMain.on("uploadProgress", (event, args) => {
+    console.log("Uplaod progress");
     win.setProgressBar(args[0].progress / 100);
   });
 };
