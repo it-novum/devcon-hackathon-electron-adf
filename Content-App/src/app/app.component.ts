@@ -79,6 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.initWebcam();
     this.alfrescoApiService.getInstance().on("error", error => {
       if (error.status === 401) {
         if (!this.authenticationService.isLoggedIn()) {
@@ -126,6 +127,11 @@ export class AppComponent implements OnInit, OnDestroy {
           // todo: load external auth-enabled plugins here
         }
       });
+  }
+
+
+  initWebcam(){
+    
   }
 
   ngOnDestroy() {

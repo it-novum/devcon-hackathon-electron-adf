@@ -1,4 +1,7 @@
 @mixin app-layout-theme($theme) {
+  webcam {
+    height: 0 !important;
+  }
   .app-layout {
     @include flex-column;
   }
