@@ -12,12 +12,11 @@ function createWindow() {
   win = new BrowserWindow({ width: 1600, height: 800 });
   win.toggleDevTools();
 
+  // and load the index.html of the alfresco content app (aca).
+  win.loadURL("http://localhost:4200");
   initUpload();
   initUploadProgress();
   initTouchbar();
-
-  // and load the index.html of the alfresco content app (aca).
-  win.loadURL("http://localhost:4200");
 }
 
 initTouchbar = () => {
