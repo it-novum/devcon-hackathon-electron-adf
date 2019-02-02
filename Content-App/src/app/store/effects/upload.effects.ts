@@ -65,6 +65,28 @@ export class UploadEffects {
     this.folderInput.setAttribute("webkitdirectory", "");
     this.folderInput.addEventListener("change", event => this.upload(event));
     renderer.appendChild(document.body, this.folderInput);
+
+    this.initUploadListeners();
+  }
+
+  private initUploadListeners() {
+    // Listener for https://electronjs.org/docs/tutorial/progress-bar
+    this.uploadService.fileUploadProgress.subscribe(event => {
+      this.electronService.ipcRenderer.send("uploadProgress", [
+        { progress: event.file.progress.percent }
+      ]);
+    });
+    // Listener for https://electronjs.org/docs/tutorial/notifications
+    this.uploadService.fileUploadComplete.subscribe(event => {
+      console.log("## file uploaded", this.electronService);
+      if (this.electronService.isElectronApp) {
+        this.electronService.ipcRenderer.send("upload", [
+          {
+            name: event.data.entry.name
+          }
+        ]);
+      }
+    });
   }
 
   @Effect({ dispatch: false })
@@ -111,25 +133,11 @@ export class UploadEffects {
     if (files.length > 0) {
       this.ngZone.run(() => {
         console.log("Upload", files);
+
         this.uploadService.addToQueue(...files);
+
         this.uploadService.uploadFilesInTheQueue();
 
-        this.uploadService.fileUploadProgress.subscribe(event => {
-          this.electronService.ipcRenderer.send("uploadProgress", [
-            { progress: event.file.progress.percent }
-          ]);
-        });
-
-        this.uploadService.fileUploadComplete.subscribe(event => {
-          console.log("## file uploaded", this.electronService);
-          if (this.electronService.isElectronApp) {
-            this.electronService.ipcRenderer.send("upload", [
-              {
-                name: event.data.entry.name
-              }
-            ]);
-          }
-        });
       });
     }
   }
