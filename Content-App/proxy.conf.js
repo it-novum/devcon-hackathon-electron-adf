@@ -1,6 +1,6 @@
 module.exports = {
   "/alfresco": {
-    target: "http://localhost:8081",
+    target: "http://localhost:8082",
     secure: false,
     changeOrigin: true,
     // workaround for REPO-2260

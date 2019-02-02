@@ -16,7 +16,7 @@ function createWindow() {
   initUploadProgress();
   initTouchbar();
 
-  // and load the index.html of the app.
+  // and load the index.html of the alfresco content app (aca).
   win.loadURL("http://localhost:4200");
 }
 
@@ -35,10 +35,10 @@ initTouchbar = () => {
 
 initUpload = () => {
   ipcMain.on("upload", (event, args) => {
-    console.log("Uplaod completed");
+    console.log("Upload completed");
     let uploadNotification = new Notification({
       title: "Upload complete!",
-      subtitle: 'File "' + args[0].name + "' has been uploaded succesfully."
+      subtitle: 'File "' + args[0].name + "' has been uploaded successfully."
     });
     console.log("Args", args);
 
@@ -49,7 +49,7 @@ initUpload = () => {
 
 initUploadProgress = () => {
   ipcMain.on("uploadProgress", (event, args) => {
-    console.log("Uplaod progress");
+    console.log("Upload progress");
     win.setProgressBar(args[0].progress / 100);
   });
 };
