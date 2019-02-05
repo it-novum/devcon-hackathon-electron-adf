@@ -1,16 +1,32 @@
 # electron-adf
 
-[Hackaton Alfresco DevCon 2019](https://community.alfresco.com/docs/DOC-8064-projects-and-teams-hack-a-thon-at-devcon-2019):  <br/>
+[Hackathon Alfresco DevCon 2019](https://community.alfresco.com/docs/DOC-8064-projects-and-teams-hack-a-thon-at-devcon-2019):  <br/>
 
 Electron is a Framework for developing cross platform desktop applications using JavaScript and a WebEngine. 
-This project was build during the Alfresco DevCon Hackaton 2019. 
+This project was build during the Alfresco DevCon Hackathon 2019. 
 It implements an electron desktop application based on the Alfresco Content App (ADF). 
 
-### Hackaton Team:
+### Hackathon Team:
 * Marius Grunenberg
 * Lukas Ladenberger
 * Andrej Lustin
 * Alexander Seitz
+
+![](docs/img/hackathon_result_presentation.jpg)
+
+## Hackathon Results / Features
+
+The goal of this Alfresco Hackathon project was to look into the possilities from electron and 
+marry them with the ADF based Alfresco Content App.
+
+Features of this project:
+* Shows an Alfresco logo icon in the Macbook touchbar
+* Pressing the Alfresco logo on the Macbook touchbar &rarr; captures an image of the notebook camera and automatically upload the image to the user space of the alfresco repository
+* Upload-Progress is shown in the system task bar 
+* A system notification (Linux, Windows, macOS) is shown when the upload is complete
+
+Example:
+![](docs/img/hackathon_mac_touchbar.jpg)
 
 
 ## Project Requirements
